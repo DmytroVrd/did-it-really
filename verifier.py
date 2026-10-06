@@ -174,6 +174,14 @@ def changed_lines(diff: str) -> set[str]:
     return lines
 
 
+JOINED_LINES = re.compile(r"\^(?=[+-])")
+
+
+def split_joined_lines(evidence: str) -> str:
+    """The model sometimes joins diff lines with '^' instead of newlines ('+a^+b'); split them back."""
+    return JOINED_LINES.sub("\n", evidence)
+
+
 def has_real_evidence(evidence: str, diff_lines: set[str]) -> bool:
     return any(
         not is_trivial(line) and _normalize(line) in diff_lines
@@ -234,6 +242,7 @@ def check_evidence(claims: list[Claim], diff: str) -> list[Claim]:
     diff_lines = changed_lines(diff)
     sections = file_sections(diff)
     for claim in claims:
+        claim.evidence = split_joined_lines(claim.evidence)
         if claim.scope_claim or claim.untouched or claim.verdict != "done" or has_real_evidence(claim.evidence, diff_lines):
             continue
         evidence = _new_file_evidence(claim, sections)

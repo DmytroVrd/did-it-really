@@ -33,6 +33,17 @@ def test_whitespace_differences_are_ignored():
     assert c.verdict == "done"
 
 
+def test_lines_joined_with_caret_are_split_back():
+    [c] = check_evidence([claim(evidence="+def multiply(a, b):^+    return a * b")], DIFF)
+    assert c.verdict == "done"
+    assert c.evidence == "+def multiply(a, b):\n+    return a * b"
+
+
+def test_caret_split_does_not_make_invented_lines_count():
+    [c] = check_evidence([claim(evidence="+def divide(a, b):^+    return a / b")], DIFF)
+    assert c.verdict == "unverifiable"
+
+
 def test_invented_evidence_is_downgraded():
     [c] = check_evidence([claim(evidence="+def divide(a, b):")], DIFF)
     assert c.verdict == "unverifiable"
