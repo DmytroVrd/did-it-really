@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Did it really?</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="window">
+    <div class="titlebar">
+      <span class="dots"><i></i><i></i><i></i></span>
+      <span class="title">did-it-really</span>
+    </div>
+    <main>
+      <h1>Did it really?</h1>
+      <p class="hint">Paste the agent's final message and the path to your project folder.</p>
+
+      <form id="check-form">
+        <label for="report">Agent report</label>
+        <textarea id="report" name="report" rows="6"></textarea>
+        <p class="field-error" data-for="report"></p>
+
+        <label for="repo_path">Repository path</label>
+        <input id="repo_path" name="repo_path" type="text" placeholder="D:\projects\my-app">
+        <p class="field-error" data-for="repo_path"></p>
+
+        <span class="label" id="session-label">Agent session <span class="optional">(which changes to check)</span></span>
+        <div class="presets" role="group" aria-labelledby="session-label">
+          <button type="button" class="preset" data-session="auto" aria-pressed="true" title="Uncommitted changes, or the last commit">Auto</button>
+          <button type="button" class="preset" data-session="1h" aria-pressed="false">Last hour</button>
+          <button type="button" class="preset" data-session="3h" aria-pressed="false">Last 3 hours</button>
+          <button type="button" class="preset" data-session="today" aria-pressed="false">Today</button>
+          <button type="button" class="preset" data-session="yesterday" aria-pressed="false">Yesterday</button>
+        </div>
+        <p class="field-error" data-for="session"></p>
+
+        <button id="check-btn" type="submit">▶ RUN CHECK</button>
+      </form>
+
+      <p id="form-error" class="form-error" hidden></p>
+      <section id="result" hidden></section>
+    </main>
+  </div>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

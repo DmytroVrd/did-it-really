@@ -1,0 +1,22 @@
+# Personal learning context
+/devpost/learner-profile.md
+
+# Local credentials
+.env
+.env.*
+!.env.example
+
+# Course tooling (not part of the app)
+/.claude/
+/.agents/
+/agent/
+/skills-lock.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+
+# Local browser automation output (screenshots, local paths)
+/.playwright-mcp/
